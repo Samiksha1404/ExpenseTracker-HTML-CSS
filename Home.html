@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Home Page</title>
+        <link rel="stylesheet" type="text/css" href="left.css">
+    </head>
+    <style>
+        body {
+             background-image: url('backgrond.jpg') ;
+             background-repeat: no-repeat;
+             background-attachment: fixed;
+             background-size: cover;
+             background-blend-mode: lighten;
+             }
+        .myDiv {
+            background-color: black;
+            text-align: center;
+            text-decoration-color: azure;
+            border: 2px;
+            transition: transform .5s ease,-webkit-transform .5s ease;
+            z-index: 101;
+            height: 800px;
+            width: 214px;
+            margin-left: 10px;
+            border-radius: 25px;
+            padding: 2px;
+            margin-top: 14px;
+            opacity: 0.9;
+            /* display: block; */
+          }
+        
+        </style>
+        <body>
+        
+        <header>
+
+        <h3 style=" position:relative;background-color: black; color: white; margin-left: -1%; margin-right: -1%; margin-top: -8px;margin-bottom: auto;
+        position: sticky;"><center>Earn&nbsp;&nbsp;Track&nbsp;&nbsp;Save</center></h3>
+        
+    </header>
+
+            <div class="myDiv">
+                <div id="Total_Net_Worth">
+                    <img src="PROFILEPIC.png" alt="" style="    max-width: 65px;
+                    border: 4px solid white;
+                    border-radius: 52px;">
+
+                    <div style="color: white;
+                    padding: 12px;">Profile</div>
+                </div>
+                
+                left 
+                <div class="leftcon">
+                    <img class="image"  src="transaction.png" >Transaction </div>
+                <div class="leftcon">
+                    <img class="image"  src="transaction.ico" >Income & Expense </div>
+                <div class="leftcon"><img class="image"  src="about.jpg" > About </div>
+                  
+                
+                cal
+                <div class="cal">
+                    <div class="row1">
+        
+                    <div class="months">
+                        Jan 
+                    </div>
+                    <div class="months">
+                        Feb 
+                    </div>
+                    <div class="months">
+                        Mar
+                    </div>
+                </div>
+        
+                <div class="row2">
+                    <div class="months">
+                        Apr
+                    </div>
+                    <div class="months">
+                        May
+                    </div>
+                    <div class="months">
+                        Jun 
+                    </div>
+                    </div>
+        
+                    <div class="row3">
+                    <div class="months">
+                        Jul
+                    </div>
+                    <div class="months">
+                        Aug
+                    </div>
+                    <div class="months">
+                        Sep
+                    </div>
+                    </div>
+        
+                    <div class="row4">
+                    <div class="months">
+                        Oct
+                    </div>
+                    <div class="months">
+                        Nov
+                    </div>
+                    <div class="months">
+                        Dec
+                    </div>
+                    </div>
+                </div>  
+            </div>
+
+            <!-- mid_part -->
+            <div id="mid_container">
+                <div id="balance">
+                  <h2>Balance: <span id="balance-amount">$0.00</span></h2> 
+                </div>
+            
+                <div id="inc_exp">
+                    <div id="income">
+                        <h4>
+                            INCOME 
+                        </h4> 
+                        <p id ="money-plus "class="money-plus">+$00.00</p>
+                    </div>
+                    <div id="expense">
+                        <h4>
+                            EXPENSE  
+                        </h4> 
+                        <p id ="money-minus "class="money-minus">-$00.00</p>
+                    </div>
+                </div>
+            
+                <div id="transactions">
+                  <h2>Transactions</h2>
+                  <ul id="transaction-list"></ul>
+                </div>
+            
+                <div id="form">
+                  <h2 style=" padding: 2px 2px;
+                  margin: 11px 1px;
+                  box-shadow:0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);" >Add New Transaction</h2>
+                  <form id="transaction-form">
+                    <div>
+                      <label for="description">Text:</label>
+                      <input type="text" id="description" placeholder="Enter the Text" required>
+                    </div>
+                    <div>
+                      <label for="amount">Amount:</label>
+                      <input type="number" id="amount" placeholder="Enter the Amount" required>
+                    </div>
+                    <div>
+                      <label for="type">Type:</label>
+                      <select id="type">
+                        <option value="income">Income</option>
+                        <option value="expense">Expense</option>
+                      </select>
+                    </div>
+                    <div>
+                      <button type="submit">Add Transaction</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <!-- <div id="footer">
+              <footer>
+                <div class="center">
+                    Copyright &copy; PersonalFinance_Tracker.com
+             </div>
+             </footer>
+             </div>
+            </div> -->
+
+            <script>
+                // Get DOM elements
+const transactionForm = document.getElementById('transaction-form');
+const descriptionInput = document.getElementById('description');
+const amountInput = document.getElementById('amount');
+const typeInput = document.getElementById('type');
+const balanceAmount = document.getElementById('balance-amount');
+const transactionList = document.getElementById('transaction-list');
+
+let balance = 0;
+let transactions = [];
+
+// Function to add a transaction
+function addTransaction(description, amount, type) {
+  const transaction = {
+    id: Date.now(),
+    description,
+    amount: parseFloat(amount),
+    type
+  };
+
+  transactions.push(transaction);
+  updateBalance();
+  updateTransactionList();
+  clearForm();
+}
+
+// Function to update the balance
+function updateBalance() {
+  balance = transactions.reduce((acc, transaction) => {
+    return transaction.type === 'income' ? acc + transaction.amount : acc - transaction.amount;
+  }, 0);
+
+  balanceAmount.textContent = `$${balance.toFixed(2)}`;
+}
+
+// Function to update the transaction list
+function updateTransactionList() {
+  transactionList.innerHTML = '';
+
+  transactions.forEach(transaction => {
+    const listItem = document.createElement('li');
+    listItem.innerHTML = `
+      <span>${transaction.description}</span>
+      <span>${transaction.type === 'income' ? '+' : '-'} $${transaction.amount.toFixed(2)}</span>
+      <button class="delete-btn" data-id="${transaction.id}">Delete</button>
+    `;
+
+    listItem.querySelector('.delete-btn').addEventListener('click', deleteTransaction);
+
+    transactionList.appendChild(listItem);
+  });
+}
+
+// Function to delete a transaction
+function deleteTransaction(e) {
+  const transactionId = parseInt(e.target.dataset.id);
+  transactions = transactions.filter(transaction => transaction.id !== transactionId);
+  updateBalance();
+  updateTransactionList();
+}
+
+// Function to clear the form inputs
+function clearForm() {
+  descriptionInput.value = '';
+  amountInput.value = '';
+  typeInput.value = 'income';
+}
+
+// Event listener for the transaction form submission
+transactionForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const description = descriptionInput.value;
+  const amount = amountInput.value;
+  const type = typeInput.value;
+
+  if (description.trim() !== '' && amount.trim() !== '') {
+    addTransaction(description, amount, type);
+  }
+});
+
+
+            </script>
+    </body>
+</html> 
